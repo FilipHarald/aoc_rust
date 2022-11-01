@@ -1090,7 +1090,7 @@ sztzziuqroeidcus
 pxdfvcpvwaddrzwv
 phdqqxleqdjfgfbg
 cqfikbgxvjmnfncy";
-        let result = 233;
+        let result = 238;
         assert_eq!(solve_a(input), result);
     }
     #[test]
