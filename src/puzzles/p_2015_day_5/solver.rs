@@ -32,8 +32,8 @@ fn check_string_is_nice(string: &str) -> bool {
             }
             at_least_three_nice_vowels = nice_vowel_counter >= 3;
         }
-        if i > 1 {
-            let two_letters = &string[i-2..i];
+        if i > 0 {
+            let two_letters = &string[i-1..i+1];
             at_least_one_double_letter = at_least_one_double_letter || check_for_double_letter(two_letters);
             has_naughty_string = has_naughty_string || check_for_naughty_string(two_letters);
         }
