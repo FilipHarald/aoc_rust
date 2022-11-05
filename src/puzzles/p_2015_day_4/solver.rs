@@ -1,13 +1,6 @@
 use md5;
 
-pub fn run() {
-    // TODO: read input
-    // TODO: solve
-    // TODO: print metrics?
-    println!("hello world");
-}
-
-fn solve_a(input: &str) -> i32{
+pub fn solve_a(input: &str) -> i32{
     let mut counter = -1;
     let mut is_match = false;
     while !is_match {
@@ -21,7 +14,7 @@ fn solve_a(input: &str) -> i32{
     return counter;
 }
 
-fn solve_b(input: &str) -> i32{
+pub fn solve_b(input: &str) -> i32{
     let mut counter = -1;
     let mut is_match = false;
     while !is_match {
@@ -49,17 +42,5 @@ mod tests {
         let input = "pqrstuv";
         let result = 1048970;
         assert_eq!(solve_a(input), result);
-    }
-    #[test]
-    fn a_proper() {
-        let input = "iwrupvqb";
-        let result = 346386;
-        assert_eq!(solve_a(input), result);
-    }
-    #[test]
-    fn b_proper() {
-        let input = "iwrupvqb";
-        let result = 9958218;
-        assert_eq!(solve_b(input), result);
     }
 }
