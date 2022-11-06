@@ -44,9 +44,52 @@ pub fn solve_a(input: &str) -> i32 {
     return  counter;
 }
 
+fn add_and_check_equal_pair<'a>(all_pairs: &mut Vec<&'a str>, pair: &'a str) -> bool {
+    // TODO: this func can be smaller and more readable?
+    let equal_pair_index = all_pairs.iter().position(|&r| r == pair);
+    let mut is_equal_without_overlap = false;
+    match equal_pair_index {
+        Some(i) => {
+            is_equal_without_overlap = i < all_pairs.len() - 1;
+        },
+        _ => {},
+    }
+    all_pairs.push(pair.clone());
+    return is_equal_without_overlap;
+}
+
+fn check_for_one_repetition_with_letter_in_between(before_previous_letter: char, current_letter: char) -> bool {
+    return before_previous_letter == current_letter;
+}
+
+fn check_string_is_nice_b(string: &str) -> bool {
+    let mut all_letter_pairs = Vec::new();
+
+    let mut at_least_two_equal_pairs = false;
+    let mut at_least_one_repetition_with_letter_in_between = false;
+
+    for (i, c) in string.chars().enumerate() {
+        if i > 0 {
+            at_least_two_equal_pairs = at_least_two_equal_pairs  || add_and_check_equal_pair(&mut all_letter_pairs, &string[i-1..i+1]);
+        }
+        if i > 1 {
+            at_least_one_repetition_with_letter_in_between = at_least_one_repetition_with_letter_in_between || check_for_one_repetition_with_letter_in_between(
+                string.chars().nth(i-2).unwrap(),
+                c
+            );
+        }
+    }
+    return at_least_one_repetition_with_letter_in_between && at_least_two_equal_pairs;
+}
+
 pub fn solve_b(input: &str) -> i32 {
-    println!("{}", input);
-    return 1;
+    let mut counter = 0;
+    for l in input.lines() {
+        if check_string_is_nice_b(l) {
+            counter += 1;
+        }
+    }
+    return  counter;
 }
 
 #[cfg(test)]
