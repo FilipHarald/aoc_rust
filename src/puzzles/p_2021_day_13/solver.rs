@@ -56,8 +56,7 @@ fn parse(input: &str) -> ParsedInput {
     return ParsedInput { dots, folds };
 }
 
-pub fn solve_a(input: &str) -> i32 {
-    let parsed_input = parse(input);
+fn do_folds(parsed_input: ParsedInput) -> Vec<Point> {
     let mut new_dots = parsed_input.dots.clone();
 
     for f in parsed_input.folds {
@@ -91,13 +90,44 @@ pub fn solve_a(input: &str) -> i32 {
             })
             .cloned()
             .collect();
-        println!("{:?}", new_dots);
     }
-    return new_dots.len() as i32;
+    return new_dots;
+}
+
+pub fn solve_a(input: &str) -> i32 {
+    let parsed_input = parse(input);
+    return do_folds(parsed_input).len() as i32;
+}
+
+fn print_dots(dots: &Vec<Point>) {
+    let highest = dots
+        .iter()
+        .fold(Point { x: 0, y: 0 }, |mut highest_vals, d| {
+            if highest_vals.x < d.x {
+                highest_vals.x = d.x;
+            }
+            if highest_vals.y < d.y {
+                highest_vals.y = d.y;
+            }
+            return highest_vals;
+        });
+    for y in 0..highest.y + 1 {
+        for x in 0..highest.x + 1 {
+            if dots.contains(&Point { x, y }) {
+                print!("#");
+            } else {
+                print!(".");
+            }
+        }
+        print!("\n");
+    }
 }
 
 pub fn solve_b(input: &str) -> i32 {
-    return solve_a(input);
+    let parsed_input = parse(input);
+    let new_dots = do_folds(parsed_input);
+    print_dots(&new_dots);
+    return new_dots.len() as i32;
 }
 
 #[cfg(test)]
