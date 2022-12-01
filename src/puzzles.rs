@@ -46,7 +46,7 @@ pub fn solve(year: &str, day: &str, part: &str, input: &str) -> i32 {
         "202113b"=>p_2021_day_13::solver::solve_b(input),
 
         "20221a"=>p_2022_day_1::solver::solve_a(input),
-        "20221a"=>p_2022_day_1::solver::solve_b(input),
+        "20221b"=>p_2022_day_1::solver::solve_b(input),
         _=>todo!(),
     };
     return result;
