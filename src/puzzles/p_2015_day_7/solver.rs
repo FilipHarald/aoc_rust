@@ -65,7 +65,7 @@ fn get_value(input: &str, wires: &HashMap<String, u16>) -> Option<u16> {
     }
 }
 
-pub fn solve_a(input: &str) -> i32 {
+pub fn solve_a(input: &str) -> String {
     let mut instructions: VecDeque<InstructionsA> = VecDeque::new();
     for l in input.lines() {
         let ins = parse_instructions(l);
@@ -125,10 +125,10 @@ pub fn solve_a(input: &str) -> i32 {
             }
         }
     }
-    return i32::from(*wires.get("a").unwrap());
+    return wires.get("a").unwrap().to_string();
 }
 
-pub fn solve_b(input: &str) -> i32 {
+pub fn solve_b(input: &str) -> String {
     // Just changed the input. Did I make it too easy?
     return solve_a(input);
 }
@@ -139,14 +139,14 @@ mod tests {
     #[test]
     fn a_1() {
         let input = "123 -> a";
-        let result = 123;
+        let result = "123";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_2() {
         let input = "321 -> b
 123 -> a";
-        let result = 123;
+        let result = "123";
         assert_eq!(solve_a(input), result);
     }
     #[test]
@@ -154,7 +154,7 @@ mod tests {
         let input = "123 -> x
 456 -> y
 x AND y -> a";
-        let result = 72;
+        let result = "72";
         assert_eq!(solve_a(input), result);
     }
     #[test]
@@ -162,35 +162,35 @@ x AND y -> a";
         let input = "123 -> x
 456 -> y
 x OR y -> a";
-        let result = 507;
+        let result = "507";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_5() {
         let input = "123 -> x
 x LSHIFT 2 -> a";
-        let result = 492;
+        let result = "492";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_6() {
         let input = "456 -> y
 y RSHIFT 2 -> a";
-        let result = 114;
+        let result = "114";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_7() {
         let input = "123 -> x
 NOT x -> a";
-        let result = 65412;
+        let result = "65412";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_8() {
         let input = "456 -> y
 NOT y -> a";
-        let result = 65079;
+        let result = "65079";
         assert_eq!(solve_a(input), result);
     }
 }

@@ -36,7 +36,7 @@ pub fn read_input_file(assets_folder_path: &str, puzzle_id: &str) -> Result<Stri
     return Ok(contents);
 }
 
-pub fn solve_one_part(year: &str, day: &str, part: &str, input: &str) -> i32 {
+pub fn solve_one_part(year: &str, day: &str, part: &str, input: &str) -> String {
     // TODO: metrics start
     let result = puzzles::solve(&year, &day, &part, &input);
     // TODO: metrics stop

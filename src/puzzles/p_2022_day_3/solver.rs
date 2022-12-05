@@ -22,7 +22,7 @@ fn get_priority(c: &char) -> i32 {
     }
 }
 
-pub fn solve_a(input: &str) -> i32 {
+pub fn solve_a(input: &str) -> String {
     let mut total_priority = 0;
     for l in input.lines() {
         let chars = l.chars().collect::<Vec<char>>();
@@ -30,7 +30,7 @@ pub fn solve_a(input: &str) -> i32 {
         let shared_item = find_shared_item(compartment_one, compartment_two);
         total_priority += get_priority(shared_item);
     }
-    return total_priority;
+    return total_priority.to_string();
 }
 
 fn find_shared_item_group<'a>(
@@ -50,7 +50,7 @@ fn find_shared_item_group<'a>(
     return res;
 }
 
-pub fn solve_b(input: &str) -> i32 {
+pub fn solve_b(input: &str) -> String {
     let mut total_priority = 0;
     let lines: Vec<&str> = input.lines().collect();
     for (index, l) in lines.iter().enumerate() {
@@ -62,7 +62,7 @@ pub fn solve_b(input: &str) -> i32 {
             total_priority += get_priority(shared_item);
         }
     }
-    return total_priority;
+    return total_priority.to_string();
 }
 
 #[cfg(test)]
@@ -76,19 +76,19 @@ PmmdzqPrVvPwwTWBwg
 wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
 ttgJtRGJQctTZtZT
 CrZsJsPPZsGzwwsLwLmpwMDw";
-        let result = 157;
+        let result = "157";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_2() {
         let input = "aa";
-        let result = 1;
+        let result = "1";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_3() {
         let input = "AA";
-        let result = 27;
+        let result = "27";
         assert_eq!(solve_a(input), result);
     }
     #[test]
@@ -99,7 +99,7 @@ PmmdzqPrVvPwwTWBwg
 wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
 ttgJtRGJQctTZtZT
 CrZsJsPPZsGzwwsLwLmpwMDw";
-        let result = 70;
+        let result = "70";
         assert_eq!(solve_b(input), result);
     }
     #[test]
@@ -110,7 +110,7 @@ aa
 baab
 bb
 bb";
-        let result = 3;
+        let result = "3";
         assert_eq!(solve_b(input), result);
     }
 }

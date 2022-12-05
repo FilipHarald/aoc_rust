@@ -1,4 +1,4 @@
-pub fn solve_a(input: &str) -> i32 {
+pub fn solve_a(input: &str) -> String {
     let mut floor_counter = 0;
     // TODO: redo with iterator
     for c in input.chars() {
@@ -8,10 +8,10 @@ pub fn solve_a(input: &str) -> i32 {
             floor_counter = floor_counter - 1;
         }
     }
-    return floor_counter;
+    return floor_counter.to_string();
 }
 
-pub fn solve_b(input: &str) -> i32 {
+pub fn solve_b(input: &str) -> String {
     const BASEMENT_FLOOR: i32 = -1;
     let mut floor_counter = 0;
     let mut basement_index_counter: i32 = -1;
@@ -26,7 +26,7 @@ pub fn solve_b(input: &str) -> i32 {
             }
         }
     };
-    return basement_index_counter;
+    return basement_index_counter.to_string();
 }
 
 #[cfg(test)]
@@ -35,67 +35,67 @@ mod tests {
     #[test]
     fn a_simple_1() {
         let input = "(())";
-        let result = 0;
+        let result = "0";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_simple_2() {
         let input = "()()";
-        let result = 0;
+        let result = "0";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_simple_3() {
         let input = "(((";
-        let result = 3;
+        let result = "3";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_simple_4() {
         let input = "(()(()(";
-        let result = 3;
+        let result = "3";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_simple_5() {
         let input = "))(((((";
-        let result = 3;
+        let result = "3";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_simple_6() {
         let input = "())";
-        let result = -1;
+        let result = "-1";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_simple_7() {
         let input = "))(";
-        let result = -1;
+        let result = "-1";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_simple_8() {
         let input = ")))";
-        let result = -3;
+        let result = "-3";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_simple_9() {
         let input = ")())())";
-        let result = -3;
+        let result = "-3";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn b_simple_1() {
         let input = ")";
-        let result = 1;
+        let result = "1";
         assert_eq!(solve_b(input), result);
     }
     #[test]
     fn b_simple_2() {
         let input = "()())";
-        let result = 5;
+        let result = "5";
         assert_eq!(solve_b(input), result);
     }
 }

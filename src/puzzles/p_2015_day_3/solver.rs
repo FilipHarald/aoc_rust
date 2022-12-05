@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-pub fn solve_a(input: &str) -> i32 {
+pub fn solve_a(input: &str) -> String {
     let mut vistited_houses = HashMap::<Vec<i32>, i32>::new();
     let mut x = 0;
     let mut y = 0;
@@ -15,7 +15,7 @@ pub fn solve_a(input: &str) -> i32 {
         }
         *vistited_houses.entry(vec![x, y]).or_insert(0) += 1;
     }
-    return vistited_houses.len().try_into().unwrap();
+    return vistited_houses.len().to_string();
 }
 
 fn move_and_deliver(x: &mut i32, y: &mut i32, c: char, vistited_houses: &mut HashMap<Vec<i32>, i32>) {
@@ -30,7 +30,7 @@ fn move_and_deliver(x: &mut i32, y: &mut i32, c: char, vistited_houses: &mut Has
         *vistited_houses.entry(vec![*x, *y]).or_insert(0) += 1;
 }
 
-pub fn solve_b(input: &str) -> i32 {
+pub fn solve_b(input: &str) -> String {
     let mut vistited_houses = HashMap::<Vec<i32>, i32>::new();
     let mut santa_x = 0; // A: mutable here because we are going to change this var.
     let mut santa_y = 0;
@@ -47,7 +47,7 @@ pub fn solve_b(input: &str) -> i32 {
             move_and_deliver(&mut robot_x, &mut robot_y, c, &mut vistited_houses);
         }
     }
-    return vistited_houses.len().try_into().unwrap();
+    return vistited_houses.len().to_string();
 }
 
 #[cfg(test)]
@@ -56,37 +56,37 @@ mod tests {
     #[test]
     fn a_simple_1() {
         let input = ">";
-        let result = 2;
+        let result = "2";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_simple_2() {
         let input = "^>v<";
-        let result = 4;
+        let result = "4";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn a_simple_3() {
         let input = "^v^v^v^v^v";
-        let result = 2;
+        let result = "2";
         assert_eq!(solve_a(input), result);
     }
     #[test]
     fn b_simple_1() {
         let input = "^v";
-        let result = 3;
+        let result = "3";
         assert_eq!(solve_b(input), result);
     }
     #[test]
     fn b_simple_2() {
         let input = "^>v<";
-        let result = 3;
+        let result = "3";
         assert_eq!(solve_b(input), result);
     }
     #[test]
     fn b_simple_3() {
         let input = "^v^v^v^v^v";
-        let result = 11;
+        let result = "11";
         assert_eq!(solve_b(input), result);
     }
 }

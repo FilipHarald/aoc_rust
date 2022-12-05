@@ -14,7 +14,7 @@ fn parse_instructions(input: &str) -> Vec<Vec<i32>> {
     return helpers_backpacks;
 }
 
-pub fn solve_a(input: &str) -> i32 {
+pub fn solve_a(input: &str) -> String {
     let helpers_backpacks: Vec<Vec<i32>> = parse_instructions(input);
     let most_calories = helpers_backpacks
         .iter()
@@ -26,10 +26,10 @@ pub fn solve_a(input: &str) -> i32 {
                 return highest_calories;
             }
         });
-    return most_calories;
+    return most_calories.to_string();
 }
 
-pub fn solve_b(input: &str) -> i32 {
+pub fn solve_b(input: &str) -> String {
     let helpers_backpacks: Vec<Vec<i32>> = parse_instructions(input);
     let mut backpacks_sum_calories =
         helpers_backpacks
@@ -39,7 +39,11 @@ pub fn solve_b(input: &str) -> i32 {
                 return summerized_backpacks;
             });
     backpacks_sum_calories.sort_by(|a, b| b.cmp(a));
-    return backpacks_sum_calories.iter().take(3).sum();
+    return backpacks_sum_calories
+        .iter()
+        .take(3)
+        .sum::<i32>()
+        .to_string();
 }
 
 #[cfg(test)]
@@ -61,7 +65,7 @@ mod tests {
 9000
 
 10000";
-        let result = 24000;
+        let result = "24000";
         assert_eq!(solve_a(input), result);
     }
     #[test]
@@ -80,7 +84,7 @@ mod tests {
 9000
 
 10000";
-        let result = 45000;
+        let result = "45000";
         assert_eq!(solve_b(input), result);
     }
 }

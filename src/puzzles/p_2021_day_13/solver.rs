@@ -94,9 +94,9 @@ fn do_folds(parsed_input: ParsedInput) -> Vec<Point> {
     return new_dots;
 }
 
-pub fn solve_a(input: &str) -> i32 {
+pub fn solve_a(input: &str) -> String {
     let parsed_input = parse(input);
-    return do_folds(parsed_input).len() as i32;
+    return do_folds(parsed_input).len().to_string();
 }
 
 fn print_dots(dots: &Vec<Point>) {
@@ -123,11 +123,11 @@ fn print_dots(dots: &Vec<Point>) {
     }
 }
 
-pub fn solve_b(input: &str) -> i32 {
+pub fn solve_b(input: &str) -> String {
     let parsed_input = parse(input);
     let new_dots = do_folds(parsed_input);
     print_dots(&new_dots);
-    return new_dots.len() as i32;
+    return new_dots.len().to_string();
 }
 
 #[cfg(test)]
@@ -155,7 +155,7 @@ mod tests {
 9,0
 
 fold along y=7";
-        let result = 17;
+        let result = "17";
         assert_eq!(solve_a(input), result);
     }
     #[test]
@@ -181,7 +181,7 @@ fold along y=7";
 
 fold along y=7
 fold along x=5";
-        let result = 16;
+        let result = "16";
         assert_eq!(solve_b(input), result);
     }
 }

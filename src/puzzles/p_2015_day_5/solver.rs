@@ -34,14 +34,14 @@ fn check_string_is_nice(string: &str) -> bool {
     return at_least_three_nice_vowels && at_least_one_double_letter && !has_naughty_string;
 }
 
-pub fn solve_a(input: &str) -> i32 {
+pub fn solve_a(input: &str) -> String {
     let mut counter = 0;
     for l in input.lines() {
         if check_string_is_nice(l) {
             counter += 1;
         }
     }
-    return  counter;
+    return  counter.to_string();
 }
 
 fn add_and_check_equal_pair<'a>(all_pairs: &mut Vec<&'a str>, pair: &'a str) -> bool {
@@ -82,14 +82,14 @@ fn check_string_is_nice_b(string: &str) -> bool {
     return at_least_one_repetition_with_letter_in_between && at_least_two_equal_pairs;
 }
 
-pub fn solve_b(input: &str) -> i32 {
+pub fn solve_b(input: &str) -> String {
     let mut counter = 0;
     for l in input.lines() {
         if check_string_is_nice_b(l) {
             counter += 1;
         }
     }
-    return  counter;
+    return  counter.to_string();
 }
 
 #[cfg(test)]

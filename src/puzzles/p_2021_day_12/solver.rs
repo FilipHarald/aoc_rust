@@ -68,18 +68,18 @@ fn recursive_find_possible_end_paths<'a>(
     )
 }
 
-pub fn solve_a(input: &str) -> i32 {
+pub fn solve_a(input: &str) -> String {
     let connections = parse(input);
     let possible_end_paths =
         recursive_find_possible_end_paths(&connections, vec!["start"], true);
-    return possible_end_paths.len() as i32;
+    return possible_end_paths.len().to_string();
 }
 
-pub fn solve_b(input: &str) -> i32 {
+pub fn solve_b(input: &str) -> String {
     let connections = parse(input);
     let possible_end_paths =
         recursive_find_possible_end_paths(&connections, vec!["start"], false);
-    return possible_end_paths.len() as i32;
+    return possible_end_paths.len().to_string();
 }
 
 #[cfg(test)]
@@ -94,7 +94,7 @@ A-b
 b-d
 A-end
 b-end";
-        let result = 10;
+        let result = "10";
         assert_eq!(solve_a(input), result);
     }
     #[test]
@@ -109,7 +109,7 @@ HN-end
 kj-sa
 kj-HN
 kj-dc";
-        let result = 19;
+        let result = "19";
         assert_eq!(solve_a(input), result);
     }
     #[test]
@@ -132,7 +132,7 @@ he-WI
 zg-he
 pj-fs
 start-RW";
-        let result = 226;
+        let result = "226";
         assert_eq!(solve_a(input), result);
     }
     #[test]
@@ -144,7 +144,7 @@ A-b
 b-d
 A-end
 b-end";
-        let result = 36;
+        let result = "36";
         assert_eq!(solve_b(input), result);
     }
     #[test]
@@ -159,7 +159,7 @@ HN-end
 kj-sa
 kj-HN
 kj-dc";
-        let result = 103;
+        let result = "103";
         assert_eq!(solve_b(input), result);
     }
     #[test]
@@ -182,7 +182,7 @@ he-WI
 zg-he
 pj-fs
 start-RW";
-        let result = 3509;
+        let result = "3509";
         assert_eq!(solve_b(input), result);
     }
 }

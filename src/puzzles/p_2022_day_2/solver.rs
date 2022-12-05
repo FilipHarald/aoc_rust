@@ -28,13 +28,13 @@ fn calculate_points(opponent: char, me: char) -> i32 {
     }
 }
 
-pub fn solve_a(input: &str) -> i32 {
+pub fn solve_a(input: &str) -> String {
     let mut score = 0;
     for l in input.lines() {
         let chars: Vec<char> = l.chars().collect();
         score += calculate_points(chars[0], chars[2]);
     }
-    return score;
+    return score.to_string();
 }
 
 fn decide_move(opponent: char, me: char) -> char {
@@ -61,14 +61,14 @@ fn decide_move(opponent: char, me: char) -> char {
     }
 }
 
-pub fn solve_b(input: &str) -> i32 {
+pub fn solve_b(input: &str) -> String {
     let mut score = 0;
     for l in input.lines() {
         let chars: Vec<char> = l.chars().collect();
         let my_move = decide_move(chars[0], chars[2]);
         score += calculate_points(chars[0], my_move);
     }
-    return score;
+    return score.to_string();
 }
 
 #[cfg(test)]
@@ -79,7 +79,7 @@ mod tests {
         let input = "A Y
 B X
 C Z";
-        let result = 15;
+        let result = "15";
         assert_eq!(solve_a(input), result);
     }
     #[test]
@@ -87,7 +87,7 @@ C Z";
         let input = "A Y
 B X
 C Z";
-        let result = 12;
+        let result = "12";
         assert_eq!(solve_b(input), result);
     }
 }
