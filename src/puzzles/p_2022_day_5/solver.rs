@@ -1,5 +1,3 @@
-#[derive()]
-#[derive(Debug)]
 struct MoveInstructions {
     nbr_to_move: usize, // TODO: move?!
     from: usize,
@@ -52,18 +50,12 @@ fn parse(input: &str) -> (Vec<Vec<char>>, Vec<MoveInstructions>) {
     return (crate_stacks, instructions);
 }
 
-fn do_instructions(crate_stacks: &mut Vec<Vec<char>>, instructions: Vec<MoveInstructions>) {
+fn do_instructions_9000(crate_stacks: &mut Vec<Vec<char>>, instructions: Vec<MoveInstructions>) {
     for ins in instructions {
-        // NOTE: commented code is to move multiple crates at the same time
-         let range = crate_stacks[ins.from].len() - ins.nbr_to_move..;
-         let from: &mut Vec<char> = &mut crate_stacks[ins.from];
-         let mut crates_to_move: Vec<char> = from.drain(range).collect();
-         crate_stacks[ins.to].append(&mut crates_to_move);
-
-       // for _i in 0..ins.nbr_to_move {
-       //     let c = crate_stacks[ins.from].pop().unwrap();
-       //     crate_stacks[ins.to].push(c);
-       // }
+        for _i in 0..ins.nbr_to_move {
+            let c = crate_stacks[ins.from].pop().unwrap();
+            crate_stacks[ins.to].push(c);
+        }
     }
 }
 
@@ -72,49 +64,63 @@ fn get_top_crates(crate_stacks: Vec<Vec<char>>) -> String {
     for stack in crate_stacks.iter() {
         res.push(*(stack.last().unwrap_or(&' '))); // TODO: this doesn't look pretty
     }
-    println!("{}", res);
     return res;
 }
 
 pub fn solve_a(input: &str) -> String {
     let (mut stacks, instructions) = parse(input);
-    do_instructions(&mut stacks, instructions);
+    do_instructions_9000(&mut stacks, instructions);
     return get_top_crates(stacks);
 }
+
+fn do_instructions_9001(crate_stacks: &mut Vec<Vec<char>>, instructions: Vec<MoveInstructions>) {
+    for ins in instructions {
+        let range = crate_stacks[ins.from].len() - ins.nbr_to_move..;
+        let from: &mut Vec<char> = &mut crate_stacks[ins.from];
+        let mut crates_to_move: Vec<char> = from.drain(range).collect();
+        crate_stacks[ins.to].append(&mut crates_to_move);
+    }
+}
+
 pub fn solve_b(input: &str) -> String {
-    return solve_a(input);
+    let (mut stacks, instructions) = parse(input);
+    do_instructions_9001(&mut stacks, instructions);
+    return get_top_crates(stacks);
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
     #[test]
-    fn a_0() {
-        let input = "    [D]    
+    fn top_crates() {
+        let input = "
+    [D]    
 [N] [C]    
 [Z] [M] [P]
  1   2   3 
 
 move 1 from 2 to 1"; // NOTE: not used for test
-        let (stacks, instructions) = parse(input);
+        let (stacks, _instructions) = parse(&input[1..]);
         let res = get_top_crates(stacks);
         let expected_result = "NDP";
         assert_eq!(res, expected_result);
     }
     #[test]
     fn a_1() {
-        let input = "    [D]    
+        let input = "
+    [D]    
 [N] [C]    
 [Z] [M] [P]
  1   2   3 
 
 move 1 from 2 to 1";
         let result = "DCP";
-        assert_eq!(solve_a(input), result);
+        assert_eq!(solve_a(&input[1..]), result);
     }
     #[test]
     fn a_2() {
-        let input = "    [D]    
+        let input = "
+    [D]    
 [N] [C]    
 [Z] [M] [P]
  1   2   3 
@@ -122,11 +128,12 @@ move 1 from 2 to 1";
 move 1 from 2 to 1
 move 3 from 1 to 3";
         let result = " CZ";
-        assert_eq!(solve_a(input), result);
+        assert_eq!(solve_a(&input[1..]), result);
     }
     #[test]
     fn a_3() {
-        let input = "    [D]    
+        let input = "
+    [D]    
 [N] [C]    
 [Z] [M] [P]
  1   2   3 
@@ -135,11 +142,12 @@ move 1 from 2 to 1
 move 3 from 1 to 3
 move 2 from 2 to 1";
         let result = "M Z";
-        assert_eq!(solve_a(input), result);
+        assert_eq!(solve_a(&input[1..]), result);
     }
     #[test]
     fn a_4() {
-        let input = "    [D]    
+        let input = "
+    [D]    
 [N] [C]    
 [Z] [M] [P]
  1   2   3 
@@ -149,6 +157,60 @@ move 3 from 1 to 3
 move 2 from 2 to 1
 move 1 from 1 to 2";
         let result = "CMZ";
-        assert_eq!(solve_a(input), result);
+        assert_eq!(solve_a(&input[1..]), result);
+    }
+    #[test]
+    fn b_1() {
+        let input = "
+    [D]    
+[N] [C]    
+[Z] [M] [P]
+ 1   2   3 
+
+move 1 from 2 to 1";
+        let result = "DCP";
+        assert_eq!(solve_b(&input[1..]), result);
+    }
+    #[test]
+    fn b_2() {
+        let input = "
+    [D]    
+[N] [C]    
+[Z] [M] [P]
+ 1   2   3 
+
+move 1 from 2 to 1
+move 3 from 1 to 3";
+        let result = " CD";
+        assert_eq!(solve_b(&input[1..]), result);
+    }
+    #[test]
+    fn b_3() {
+        let input = "
+    [D]    
+[N] [C]    
+[Z] [M] [P]
+ 1   2   3 
+
+move 1 from 2 to 1
+move 3 from 1 to 3
+move 2 from 2 to 1";
+        let result = "C D";
+        assert_eq!(solve_b(&input[1..]), result);
+    }
+    #[test]
+    fn a_b() {
+        let input = "
+    [D]    
+[N] [C]    
+[Z] [M] [P]
+ 1   2   3 
+
+move 1 from 2 to 1
+move 3 from 1 to 3
+move 2 from 2 to 1
+move 1 from 1 to 2";
+        let result = "MCD";
+        assert_eq!(solve_b(&input[1..]), result);
     }
 }
