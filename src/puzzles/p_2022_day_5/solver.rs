@@ -1,5 +1,5 @@
 struct MoveInstructions {
-    nbr_to_move: usize, // TODO: move?!
+    nbr_to_move: usize,
     from: usize,
     to: usize,
 }
