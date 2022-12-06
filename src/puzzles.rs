@@ -12,7 +12,7 @@ pub mod p_2021_day_13;
 pub mod p_2022_day_1;
 pub mod p_2022_day_2;
 pub mod p_2022_day_3;
-
+pub mod p_2022_day_4;
 pub mod p_2022_day_5;
 pub mod p_2022_day_6;
 
@@ -56,7 +56,8 @@ pub fn solve(year: &str, day: &str, part: &str, input: &str) -> String {
         "20222b"=>p_2022_day_2::solver::solve_b(input),
         "20223a"=>p_2022_day_3::solver::solve_a(input),
         "20223b"=>p_2022_day_3::solver::solve_b(input),
-
+        "20224a"=>p_2022_day_4::a::solve(input),
+        "20224b"=>p_2022_day_4::b::solve(input),
         "20225a"=>p_2022_day_5::solver::solve_a(input),
         "20225b"=>p_2022_day_5::solver::solve_b(input),
         "20226a"=>p_2022_day_6::a::solve(input),
