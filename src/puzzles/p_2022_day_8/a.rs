@@ -4,44 +4,36 @@ fn can_see_out_from_tree(t: &Tree, tree_yard: &Vec<Vec<Tree>>) -> (bool, bool) {
     let mut x_axis = t.is_visible_from_outside_x;
     let mut y_axis = t.is_visible_from_outside_y;
     if !x_axis && !y_axis {
-        let mut vision_is_blocked = false;
         for x in (0..t.x).rev() {
             let current_tree = &tree_yard[t.y][x];
-            vision_is_blocked = vision_is_blocked || current_tree.height >= t.height;
-            if vision_is_blocked {
+            if current_tree.height >= t.height {
                 break;
             }
             x_axis = x_axis || current_tree.is_visible_from_outside_x;
          }
     }
     if !x_axis && !y_axis {
-        let mut vision_is_blocked = false;
         for y in (0..t.y).rev() {
             let current_tree = &tree_yard[y][t.x];
-            vision_is_blocked = vision_is_blocked || current_tree.height >= t.height;
-            if vision_is_blocked {
+            if current_tree.height >= t.height {
                 break;
             }
             y_axis = y_axis || current_tree.is_visible_from_outside_y;
         }
     }
     if !x_axis && !y_axis {
-        let mut vision_is_blocked = false;
         for x in t.x + 1..tree_yard[t.y].len() {
             let current_tree = &tree_yard[t.y][x];
-            vision_is_blocked = vision_is_blocked || current_tree.height >= t.height;
-            if vision_is_blocked {
+            if current_tree.height >= t.height {
                 break;
             }
             x_axis = x_axis || current_tree.is_visible_from_outside_x;
         }
     }
     if !x_axis && !y_axis {
-        let mut vision_is_blocked = false;
         for y in t.y + 1..tree_yard.len() {
             let current_tree = &tree_yard[y][t.x];
-            vision_is_blocked = vision_is_blocked || current_tree.height >= t.height;
-            if vision_is_blocked {
+            if current_tree.height >= t.height {
                 break;
             }
             y_axis = y_axis || current_tree.is_visible_from_outside_y;
