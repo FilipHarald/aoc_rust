@@ -9,7 +9,6 @@ impl Head {
     pub fn instruct_move(self: &mut Head, ins: Instructions) -> Vec<Point> {
         let start = self.current_pos.clone();
         let mut path: Vec<Point> = Vec::new();
-        println!("========{:?}", ins);
         match ins.direction {
             Direction::Right => {
                 self.current_pos.x += ins.steps;
@@ -24,7 +23,7 @@ impl Head {
                 self.current_pos.x -= ins.steps;
                 for x in (self.current_pos.x..start.x + 1).rev() {
                     path.push(Point {
-                        x: x,
+                        x,
                         y: self.current_pos.y,
                     });
                 }
@@ -43,7 +42,7 @@ impl Head {
                 for y in (self.current_pos.y..start.y + 1).rev() {
                     path.push(Point {
                         x: self.current_pos.x,
-                        y: y,
+                        y,
                     });
                 }
             }
@@ -54,33 +53,107 @@ impl Head {
 
 pub struct Tail {
     pub current_pos: Point,
-    pub visited: HashSet<Point>,
+    pub id: usize,
+    pub tail: Option<Box<Tail>>,
+    pub visited: Option<HashSet<Point>>,
 }
 
 impl Tail {
+    pub fn new(tail_size: usize, start: &Point) -> Self {
+        let mut current = Self {
+            current_pos: start.clone(),
+            id: tail_size,
+            tail: None,
+            visited: Some(HashSet::new()),
+        };
+        current.visited.as_mut().unwrap().insert(start.clone());
+        for tail_id in (1..tail_size).rev() {
+            let new_tail = Self {
+                current_pos: start.clone(),
+                id: tail_id,
+                tail: Some(Box::new(current)),
+                visited: None,
+            };
+            current = new_tail;
+        }
+        return current;
+    }
+
+    fn calculate_new_pos(self: &Tail, parent_pos: &Point) -> Option<Point> {
+        let diff_x = parent_pos.x - self.current_pos.x;
+        let diff_y = parent_pos.y - self.current_pos.y;
+        if diff_x.abs() > 1 && diff_y.abs() > 1 {
+            return Some(Point {
+                x: self.current_pos.x + (diff_x / 2),
+                y: self.current_pos.y + (diff_y / 2),
+            });
+        }
+        if diff_x.abs() > 1 {
+            return Some(Point {
+                x: self.current_pos.x + (diff_x / 2),
+                y: self.current_pos.y + diff_y,
+            });
+        };
+        if diff_y.abs() > 1 {
+            return Some(Point {
+                x: self.current_pos.x + diff_x,
+                y: self.current_pos.y + (diff_y / 2),
+            });
+        };
+        return None;
+    }
+
     pub fn follow(self: &mut Tail, head_path: &Vec<Point>) {
         for head_pos in head_path {
-            println!("head{:?}", head_pos);
-            let diff_x = head_pos.x - self.current_pos.x;
-            let diff_y = head_pos.y - self.current_pos.y;
-            if diff_x.abs() > 1 {
-                self.current_pos.x += diff_x / 2;
-                self.current_pos.y += diff_y;
-            }
-            if diff_y.abs() > 1 {
-                self.current_pos.x += diff_x;
-                self.current_pos.y += diff_y / 2;
-            }
+            self.adjust_tail(head_pos.clone());
+        }
+    }
 
-            println!("tail{:?}\n", self.current_pos);
+    pub fn adjust_tail(self: &mut Tail, parent_pos: Point) {
+        match self.calculate_new_pos(&parent_pos) {
+            Some(new_pos) => {
+                self.current_pos = new_pos;
+                match &mut self.tail {
+                    Some(t) => {
+                        t.adjust_tail(self.current_pos.clone());
+                    }
+                    None => {
+                        self.visited
+                            .as_mut()
+                            .unwrap()
+                            .insert(self.current_pos.clone());
+                    }
+                }
+            }
+            None => (),
+        };
+    }
 
-            self.visited.insert(self.current_pos.clone());
+    pub fn get_tail_end_visited_len(self: &mut Tail) -> usize {
+        match &mut self.tail {
+            Some(t) => t.get_tail_end_visited_len(),
+            None => self.visited.as_ref().unwrap().len().clone(),
+        }
+    }
+    pub fn get_print(self: &mut Tail, p: &Point) -> String {
+        if self.current_pos == p.clone() {
+            return format!("{} ", self.id);
+        } else {
+            match &mut self.tail {
+                Some(t) => t.get_print(p),
+                None => {
+                    if self.visited.as_ref().unwrap().contains(p) {
+                        return "# ".to_string();
+                    } else {
+                        return ". ".to_string();
+                    }
+                }
+            }
         }
     }
 }
 
-#[derive(Eq, Hash, PartialEq, Clone)]
-#[derive(Debug)]
+#[derive(Eq, Hash, PartialEq, Clone, Debug)]
 pub struct Point {
     pub x: i32,
     pub y: i32,

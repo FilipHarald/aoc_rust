@@ -1,5 +1,3 @@
-use std::collections::HashSet;
-
 use super::utils::{parse, Head, Instructions, Point, Tail};
 
 pub fn solve(input: &str) -> String {
@@ -9,11 +7,7 @@ pub fn solve(input: &str) -> String {
     let mut head = Head {
         current_pos: start_point.clone(),
     };
-    let mut tail = Tail {
-        current_pos: start_point.clone(),
-        visited: HashSet::new(),
-    };
-    tail.visited.insert(start_point.clone());
+    let mut tail = Tail::new(1, &start_point);
 
     for ins in instructions {
         let head_path = head.instruct_move(ins);
@@ -38,7 +32,7 @@ pub fn solve(input: &str) -> String {
        //     print!("\n");
        // }
     }
-    return tail.visited.len().to_string();
+    return tail.get_tail_end_visited_len().to_string();
 }
 
 #[cfg(test)]
@@ -51,7 +45,7 @@ R 4
 U 1";
         let res = solve(&input[1..]);
         let expected_result = "4";
-        assert_eq!(res, expected_result);
+        assert_eq!(expected_result, res);
     }
     #[test]
     fn small_2() {
@@ -60,7 +54,7 @@ R 4
 U 2";
         let res = solve(&input[1..]);
         let expected_result = "5";
-        assert_eq!(res, expected_result);
+        assert_eq!(expected_result, res);
     }
     #[test]
     fn given_example() {
@@ -75,6 +69,6 @@ L 5
 R 2";
         let res = solve(&input[1..]);
         let expected_result = "13";
-        assert_eq!(res, expected_result);
+        assert_eq!(expected_result, res);
     }
 }
