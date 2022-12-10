@@ -1,5 +1,5 @@
-TODO
-file reader
-better folder structure
-filter tests
-implement something for run function?
+# TODO
+
+* performance mem
+* performance speed
+* only one input if necessary?
