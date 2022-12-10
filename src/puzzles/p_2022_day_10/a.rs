@@ -13,7 +13,7 @@ fn do_instructions(instructions: Vec<Instructions>) -> (i32, i32) {
     for ins in instructions.iter() {
         let unified_ins = match ins {
             Instructions::Noop { cycles } => (*cycles, 0),
-            Instructions::Addx { cycles, add } => (*cycles, *add)
+            Instructions::Addx { cycles, add } => (*cycles, *add),
         };
         for _i in 0..unified_ins.0 {
             cycle_counter += 1;
@@ -35,14 +35,14 @@ mod tests {
 noop
 addx 3
 addx -5";
-    let instructions = parse(&input[1..]);
-    let res = do_instructions(instructions);
+        let instructions = parse(&input[1..]);
+        let res = do_instructions(instructions);
         let expected_result = -1;
         assert_eq!(expected_result, res.0);
     }
-        #[test]
-        fn given_example() {
-            let input = "
+    #[test]
+    fn given_example() {
+        let input = "
 addx 15
 addx -11
 addx 6
@@ -189,8 +189,8 @@ addx -11
 noop
 noop
 noop";
-            let res = solve(&input[1..]);
-            let expected_result = "13140";
-            assert_eq!(expected_result, res);
-        }
+        let res = solve(&input[1..]);
+        let expected_result = "13140";
+        assert_eq!(expected_result, res);
+    }
 }
