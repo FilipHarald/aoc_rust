@@ -135,12 +135,12 @@ impl Tail {
             None => self.visited.as_ref().unwrap().len().clone(),
         }
     }
-    pub fn get_print(self: &mut Tail, p: &Point) -> String {
+    pub fn _get_print(self: &mut Tail, p: &Point) -> String {
         if self.current_pos == p.clone() {
             return format!("{} ", self.id);
         } else {
             match &mut self.tail {
-                Some(t) => t.get_print(p),
+                Some(t) => t._get_print(p),
                 None => {
                     if self.visited.as_ref().unwrap().contains(p) {
                         return "# ".to_string();
