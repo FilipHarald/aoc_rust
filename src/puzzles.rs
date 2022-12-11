@@ -19,6 +19,7 @@ pub mod p_2022_day_7;
 pub mod p_2022_day_8;
 pub mod p_2022_day_9;
 pub mod p_2022_day_10;
+pub mod p_2022_day_11;
 
 // TODO: some kind of hash map?
 //const PS: HashMap<&str, fn(&str) -> i32> = HashMap::from([
@@ -74,6 +75,8 @@ pub fn solve(year: &str, day: &str, part: &str, input: &str) -> String {
         "20229b"=>p_2022_day_9::b::solve(input),
         "202210a"=>p_2022_day_10::a::solve(input),
         "202210b"=>p_2022_day_10::b::solve(input),
+        "202211a"=>p_2022_day_11::a::solve(input),
+        //"202211b"=>p_2022_day_11::b::solve(input),
         _=>todo!(),
     };
     return result;
