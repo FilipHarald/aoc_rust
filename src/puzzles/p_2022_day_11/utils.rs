@@ -37,32 +37,36 @@ impl FromStr for Operation {
 
 #[derive(Debug)]
 pub struct Monkey {
-    pub items: VecDeque<u32>,
-    pub inscpected_counter: u32,
+    pub items: VecDeque<u128>,
+    pub inscpected_counter: u128,
     pub operation: Operation,
-    pub div_test: u32,
-    pub div_outcome: (u32, u32),
+    pub div_test: u128,
+    pub div_outcome: (u128, u128),
 }
 
 impl Monkey {
-    fn get_operation_member(op: &String, item: u32) -> u32 {
-        match op.parse::<u32>() {
+    fn get_operation_member(op: &String, item: u128) -> u128 {
+        match op.parse::<u128>() {
             Ok(nbr) => nbr,
             Err(_) => item,
         }
     }
 
-    pub fn do_operation(self: &Monkey, item: u32) -> u32 {
+    pub fn do_operation(self: &Monkey, item: u128, common_denominator: u128) -> u128 {
         let op_1 = Self::get_operation_member(&self.operation.op_1, item);
         let op_2 = Self::get_operation_member(&self.operation.op_2, item);
-        println!("{op_1} {:?} {op_2}", self.operation.operator);
+        //println!("{op_1} {:?} {op_2}", self.operation.operator);
         match self.operation.operator {
             Operator::Addition => op_1 + op_2,
-            Operator::Multiplication => op_1 * op_2,
+            Operator::Multiplication => {
+                let one = op_1 % common_denominator;
+                let two = op_2 % common_denominator;
+                return one * two;
+            },
         }
     }
 
-    pub fn do_div_test(self: &Monkey, item: u32) -> u32 {
+    pub fn do_div_test(self: &Monkey, item: u128) -> u128 {
         if item % self.div_test == 0 {
             self.div_outcome.0
         } else {
@@ -71,12 +75,12 @@ impl Monkey {
     }
 }
 
-fn parse_items(item_string: &str) -> VecDeque<u32> {
+fn parse_items(item_string: &str) -> VecDeque<u128> {
     // e.g:"   Starting items: 79, 98"
     item_string
         .split(&[' ', ','])
         .fold(VecDeque::new(), |mut items, s| {
-            match s.parse::<u32>() {
+            match s.parse::<u128>() {
                 Ok(nbr) => {
                     items.push_back(nbr);
                 }
@@ -85,7 +89,7 @@ fn parse_items(item_string: &str) -> VecDeque<u32> {
             return items;
         })
 }
-fn get_number_at_end(s: &str) -> u32 {
+fn get_number_at_end(s: &str) -> u128 {
     s.split(' ').last().unwrap().parse().unwrap()
 }
 

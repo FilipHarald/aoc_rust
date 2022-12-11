@@ -76,7 +76,7 @@ pub fn solve(year: &str, day: &str, part: &str, input: &str) -> String {
         "202210a"=>p_2022_day_10::a::solve(input),
         "202210b"=>p_2022_day_10::b::solve(input),
         "202211a"=>p_2022_day_11::a::solve(input),
-        //"202211b"=>p_2022_day_11::b::solve(input),
+        "202211b"=>p_2022_day_11::b::solve(input),
         _=>todo!(),
     };
     return result;
