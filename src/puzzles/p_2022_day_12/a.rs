@@ -1,37 +1,8 @@
-use std::collections::{HashMap, HashSet, VecDeque};
-
-use super::utils::{get_valid_neighbors, parse};
+use super::utils::{parse, find_shortest_path_to_end};
 
 pub fn solve(input: &str) -> String {
     let (map, start_coords) = parse(input);
-    let mut previous: HashMap<(usize, usize), (usize, usize)> = HashMap::new();
-    let mut visited: HashSet<(usize, usize)> = HashSet::new();
-    let mut queue: VecDeque<((usize, usize), usize)> = VecDeque::new();
-
-    let mut shortest_distance = 0;
-
-    queue.push_back((start_coords, 0));
-    visited.insert(start_coords);
-
-    while queue.len() > 0 {
-        let (curr_coords, dist) = queue.pop_front().unwrap();
-        let current_val = map.get(curr_coords.1).unwrap().get(curr_coords.0).unwrap();
-        if current_val == &'E' {
-            shortest_distance = dist;
-            break;
-        }
-
-        let neighbors = get_valid_neighbors(curr_coords, current_val, &map);
-
-        for neighbor in neighbors {
-            if !visited.contains(&neighbor.0) {
-                previous.insert(neighbor.0, curr_coords);
-                queue.push_back((neighbor.0, dist + 1));
-                visited.insert(neighbor.0);
-            }
-        }
-    }
-
+    let shortest_distance = find_shortest_path_to_end(&map, start_coords);
     return shortest_distance.to_string();
 }
 
