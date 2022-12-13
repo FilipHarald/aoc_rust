@@ -54,13 +54,11 @@ pub fn get_valid_neighbors<'a>(
 
 fn is_valid_neighbor(neighbor: &char, current: &char) -> bool {
     let n_val = match neighbor {
-        'S' => 'a' as u16,
         'E' => 'z' as u16,
         neighbor => *neighbor as u16,
     };
 
     let curr_val = match current {
-        'S' => 'a' as u16,
         'E' => 'z' as u16,
         current => *current as u16,
     };
@@ -106,12 +104,10 @@ pub fn parse(input: &str) -> (Vec<Vec<char>>, (usize, usize)) {
         matrix.push(Vec::new());
         for (x, c) in line.chars().enumerate() {
             if c == 'S' {
-
                 start_x = x;
                 start_y = y;
                 matrix[y].push('a');
-            } else { 
-
+            } else {
                 matrix[y].push(c);
             }
         }
